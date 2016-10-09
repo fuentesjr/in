@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+demis:
+  fullname: "Demis Hassabis"
+  title: "Founder & CEO, DeepMind"
+  company: "DeepMind"
+  position: "Founder & CEO"
+  url: "https://www.linkedin.com/in/demishassabis"
+
+steph:
+  fullname: "Stephen Wolfram"
+  title: "Founder & CEO at Wolfram Research"
+  company: "Wolfram Research"
+  position: "Founder & CEO at Wolfram Research"
+  url: "https://www.linkedin.com/in/stephenwolfram"
