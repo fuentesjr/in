@@ -10,6 +10,5 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require elm
-//= require elm_ujs
+//= require Main
 //= require_tree .
