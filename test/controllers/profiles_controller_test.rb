@@ -14,7 +14,9 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   test "POST create endpoint" do
     assert_difference('Profile.count') do
       profile = { profile: { fullname: 'Bobby Tables'} }
-      post profiles_url, params: profile
+      post profiles_url, params: profile, as: :json
     end
+
+    assert_equal({ "status" => "created"},  response.parsed_body)
   end
 end
