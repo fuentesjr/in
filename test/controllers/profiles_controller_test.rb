@@ -7,8 +7,13 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET search endpoint" do
-    get search_profiles_url
+    demis = profiles(:demis)
+    search_params = { query: demis.fullname, search_field: "fullname" }
+    search_url = "#{search_profiles_url}?#{search_params.to_query}"
+    get search_url, as: :json
+
     assert_response :success
+    assert_equal(demis.id, response.parsed_body["results"].first["id"])
   end
 
   test "POST create endpoint" do

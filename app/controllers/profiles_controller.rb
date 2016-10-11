@@ -3,7 +3,13 @@ class ProfilesController < ApplicationController
   end
 
   def search
-    render json: {}
+    results = []
+
+    if params[:search_field] == "fullname"
+      results = Profile.where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%")
+    end
+
+    render json: { results: results }
   end
 
   def create
