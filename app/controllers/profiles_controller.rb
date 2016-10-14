@@ -6,7 +6,8 @@ class ProfilesController < ApplicationController
     results = []
 
     if params[:search_field] == "fullname"
-      results = Profile.where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%")
+      results = Profile.where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
+                        includes(:skills)
     end
 
     render json: { results: results }
