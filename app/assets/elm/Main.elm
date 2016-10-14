@@ -76,7 +76,7 @@ update msg model =
             ( model, execSearch (buildFullPath model) )
 
         FetchSucceed data ->
-            ( { model | searchResults = (Debug.log "data" data) }, Cmd.none )
+            ( { model | searchResults = data }, Cmd.none )
 
         FetchFail _ ->
             ( model, Cmd.none )
