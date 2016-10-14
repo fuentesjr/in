@@ -11,5 +11,4 @@
 // about supported directives.
 //
 //= require Main
-//= require bootstrap-sprockets
 //= require_tree .

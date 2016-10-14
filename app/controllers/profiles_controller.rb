@@ -1,5 +1,12 @@
 class ProfilesController < ApplicationController
   def index
+    # Init data used to bootstrap Elm front-end application (SPA)
+    @init_search = {
+      searchQuery: "",
+      searchPath: search_profiles_path,
+      searchField: "fullname",
+      searchResults: []
+    }
   end
 
   def search
