@@ -5,6 +5,7 @@ demis:
   title: "Founder & CEO, DeepMind"
   company: "DeepMind"
   position: "Founder & CEO"
+  skills: algos, ai, cs, softeng, ml
   url: "https://www.linkedin.com/in/demishassabis"
 
 steph:
@@ -12,4 +13,13 @@ steph:
   title: "Founder & CEO at Wolfram Research"
   company: "Wolfram Research"
   position: "Founder & CEO at Wolfram Research"
+  skills: algos, cs, softeng, math
   url: "https://www.linkedin.com/in/stephenwolfram"
+
+neil:
+  fullname: "Neil deGrasse Tyson"
+  title: "Hayden Planetarium: Rose Center for Earth & Space"
+  company: "American Museum of Natural History"
+  position: "Host and Executive Producer"
+  skills: space, math, physics
+  url: "https://www.linkedin.com/in/neil-degrasse-tyson-ph-d-8260b0113"

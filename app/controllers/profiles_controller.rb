@@ -12,9 +12,14 @@ class ProfilesController < ApplicationController
   def search
     results = []
 
-    if params[:search_field] == "fullname"
-      results = Profile.where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
-                        includes(:skills)
+    if %w(fullname skills).include?(params[:search_field])
+      if params[:search_field] == "fullname"
+        results = Profile.
+                  where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
+                  includes(:skills)
+      else # search by skills
+        results = Profile.joins(:skills).merge(Skill.where("name = ?", params['query']))
+      end
     end
 
     render json: { results: results }

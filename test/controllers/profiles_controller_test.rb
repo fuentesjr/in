@@ -6,7 +6,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "GET search endpoint" do
+  test "GET search based on fullname attr" do
     demis = profiles(:demis)
     search_params = { query: demis.fullname, search_field: "fullname" }
     search_url = "#{search_profiles_url}?#{search_params.to_query}"
@@ -15,6 +15,18 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal(demis.id, response.parsed_body["results"].first["id"])
   end
+
+
+  test "GET search based on skills attr" do
+    demis = profiles(:demis)
+    search_params = { query: "algorithms", search_field: "skills" }
+    search_url = "#{search_profiles_url}?#{search_params.to_query}"
+    get search_url, as: :json
+
+    assert_response :success
+    assert_equal(2, response.parsed_body["results"].count)
+  end
+
 
   test "POST create endpoint" do
     assert_difference('Profile.count') do
