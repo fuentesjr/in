@@ -5,17 +5,23 @@ import Http
 import Task
 import Json.Decode as Json exposing ((:=))
 import Profiles.Messages exposing (..)
-import Profiles.Models exposing (Profile, Search, Skill)
+import Profiles.Models exposing (Profile, Search, SearchResults, PageInfo, Skill)
 
 
 update : Msg -> Search -> ( Search, Cmd Msg )
 update msg model =
     case msg of
-        SetSearchField srchfld ->
-            ( { model | searchField = srchfld }, Cmd.none )
+        FetchFail _ ->
+            ( model, Cmd.none )
 
-        UpdateSearchQuery val ->
-            ( { model | searchQuery = val }, Cmd.none )
+        FetchPage pageNum ->
+            ( model, execSearch (buildFullPath model pageNum) )
+
+        FetchSucceed newResults ->
+            ( { model | searchResults = newResults }, Cmd.none )
+
+        GoSearch ->
+            ( model, execSearch (buildFullPath model 1) )
 
         NavToNewProfile ->
             ( model, Navigation.newUrl "#newprofile" )
@@ -23,26 +29,52 @@ update msg model =
         NavToSearch ->
             ( model, Navigation.newUrl "#" )
 
-        Search ->
-            ( model, execSearch (buildFullPath model) )
+        SetSearchField srchfld ->
+            ( { model | searchField = srchfld }, Cmd.none )
 
-        FetchSucceed data ->
-            ( { model | searchResults = data }, Cmd.none )
-
-        FetchFail _ ->
-            ( model, Cmd.none )
+        UpdateSearchQuery val ->
+            ( { model | searchQuery = val }, Cmd.none )
 
 
-buildFullPath model =
-    model.searchPath
-        ++ "?search_field="
-        ++ model.searchField
-        ++ "&query="
-        ++ model.searchQuery
+buildFullPath : Search -> Int -> String
+buildFullPath model page =
+    let
+        queryParams =
+            [ ( "search_field", model.searchField )
+            , ( "query", model.searchQuery )
+            , ( "page", toString page )
+            ]
+    in
+        Http.url model.searchPath queryParams
 
 
+execSearch : String -> Cmd Msg
 execSearch path =
-    Task.perform FetchFail FetchSucceed (Http.get searchResultsDec path)
+    Task.perform FetchFail FetchSucceed (Http.get jsonDec path)
+
+
+
+-- Our custom JSON Decoders
+
+
+jsonDec : Json.Decoder SearchResults
+jsonDec =
+    "results" := searchResultsDec
+
+
+searchResultsDec : Json.Decoder SearchResults
+searchResultsDec =
+    Json.object2 SearchResults
+        ("profiles" := Json.list profileDec)
+        ("pageInfo" := pageInfoDec)
+
+
+pageInfoDec : Json.Decoder PageInfo
+pageInfoDec =
+    Json.object3 PageInfo
+        ("prevPage" := Json.int)
+        ("nextPage" := Json.int)
+        ("activated" := Json.bool)
 
 
 profileDec : Json.Decoder Profile
@@ -66,8 +98,3 @@ skillsDec =
                 ("name" := Json.string)
     in
         Json.list skill
-
-
-searchResultsDec : Json.Decoder (List Profile)
-searchResultsDec =
-    "results" := Json.list profileDec

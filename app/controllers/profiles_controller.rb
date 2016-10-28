@@ -5,24 +5,34 @@ class ProfilesController < ApplicationController
       searchQuery: "",
       searchPath: search_profiles_path,
       searchField: "fullname",
-      searchResults: []
+      searchResults: {
+        profiles: [],
+        pageInfo: { prevPage: 0, nextPage: 1, activated: false }
+      }
     }
   end
 
   def search
     results = []
 
+    page = params[:page] || 0
+    page = page.to_i
+    page = 0 if page < 0
+
     if %w(fullname skills).include?(params[:search_field])
       if params[:search_field] == "fullname"
-        results = Profile.
-                  where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
-                  includes(:skills)
+        profiles = Profile.
+                   where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
+                   includes(:skills).page page
       else # search by skills
-        results = Profile.joins(:skills).merge(Skill.where("name = ?", params['query']))
+        profiles = Profile.
+                   joins(:skills).
+                   merge(Skill.where("name = ?", params['query'])).page page
       end
     end
 
-    render json: { results: results }
+    page_results = { profiles: profiles, pageInfo: page_info(page, profiles) }
+    render json: { results: page_results }
   end
 
   def create
@@ -35,8 +45,17 @@ class ProfilesController < ApplicationController
   end
 
   private
-
     def profile_params
       params.require(:profile).permit(:fullname, :title, :company, :position, :url)
+    end
+
+    def page_info(page, records)
+      prev_page = 0
+      prev_page = page - 1 unless page.zero?
+
+      nextPage = page + 1
+      nextPage = 0 if records.count.zero?
+
+      { prevPage: prev_page, nextPage: nextPage, activated: true }
     end
 end

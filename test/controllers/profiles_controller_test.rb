@@ -13,7 +13,8 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     get search_url, as: :json
 
     assert_response :success
-    assert_equal(demis.id, response.parsed_body["results"].first["id"])
+    assert_equal(demis.id,
+                 response.parsed_body["results"]["profiles"].first["id"])
   end
 
 

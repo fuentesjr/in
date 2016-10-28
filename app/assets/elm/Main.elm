@@ -16,7 +16,7 @@ init initSearch result =
         currentRoute =
             Routing.routeFromResult result
     in
-        ( Model currentRoute initSearch [], Cmd.none )
+        ( Model currentRoute initSearch, Cmd.none )
 
 
 urlUpdate : Result String Route -> Model -> ( Model, Cmd Msg )

@@ -1,14 +1,15 @@
 module Profiles.Messages exposing (..)
 
 import Http
-import Profiles.Models exposing (Profile)
+import Profiles.Models exposing (SearchResults)
 
 
 type Msg
-    = SetSearchField String
-    | FetchSucceed (List Profile)
-    | FetchFail Http.Error
-    | Search
-    | UpdateSearchQuery String
+    = FetchFail Http.Error
+    | FetchPage Int
+    | FetchSucceed SearchResults
+    | GoSearch
     | NavToNewProfile
     | NavToSearch
+    | SetSearchField String
+    | UpdateSearchQuery String

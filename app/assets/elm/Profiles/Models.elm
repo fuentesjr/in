@@ -17,9 +17,22 @@ type alias Profile =
     }
 
 
+type alias PageInfo =
+    { prevPage : Int
+    , nextPage : Int
+    , activated : Bool
+    }
+
+
+type alias SearchResults =
+    { profiles : List Profile
+    , pageInfo : PageInfo
+    }
+
+
 type alias Search =
     { searchQuery : String
     , searchPath : String
     , searchField : String
-    , searchResults : List Profile
+    , searchResults : SearchResults
     }
