@@ -8,7 +8,7 @@ import UrlParser exposing (..)
 type Route
     = SearchRoute
     | NewProfileRoute
-    -- | ProfileRoute Int
+    | ProfileRoute Int
     | NotFoundRoute
 
 
@@ -16,7 +16,7 @@ matchers : Parser (Route -> a) a
 matchers =
     oneOf
         [ format SearchRoute (s "")
-        -- , format ProfileRoute (s "profiles" </> int)
+        , format ProfileRoute (s "profiles" </> int)
         , format NewProfileRoute (s "newprofile")
         ]
 

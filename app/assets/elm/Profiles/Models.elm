@@ -36,3 +36,16 @@ type alias Search =
     , searchField : String
     , searchResults : SearchResults
     }
+
+
+blankProfile : Profile
+blankProfile =
+    { id = 0
+    , fullname = ""
+    , title = ""
+    , position = ""
+    , company = ""
+    , skills = []
+    , created_at = ""
+    , updated_at = ""
+    }
