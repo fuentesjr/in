@@ -1,12 +1,3 @@
-GIT
-  remote: git://github.com/mariochavez/elm-rails.git
-  revision: 797e19eca047dcdbca0665de7564107d17ed6bde
-  branch: rails5_with_sprockets
-  specs:
-    elm-rails (0.1.2)
-      elm-compiler (~> 0.1.2)
-      rails (>= 4.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -58,7 +49,6 @@ GEM
     byebug (10.0.1)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
-    elm-compiler (0.1.2)
     erubi (1.7.1)
     execjs (2.7.0)
     ffi (1.9.23)
@@ -96,6 +86,8 @@ GEM
     pg (1.0.0)
     puma (3.11.3)
     rack (2.0.4)
+    rack-proxy (0.6.4)
+      rack
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
     rails (5.1.6)
@@ -160,6 +152,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webpacker (3.4.3)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -170,7 +166,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3)
   byebug
-  elm-rails!
   kaminari
   listen (~> 3.0.5)
   pg
@@ -182,6 +177,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console
+  webpacker (~> 3.4, >= 3.4.3)
 
 RUBY VERSION
    ruby 2.5.1p57
