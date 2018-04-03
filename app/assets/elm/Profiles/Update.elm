@@ -42,29 +42,34 @@ buildFullPath : Search -> Int -> String
 buildFullPath model page =
     let
         queryParams =
-            [ ( "search_field", model.searchField)
+            [ ( "search_field", model.searchField )
             , ( "query", model.searchQuery )
             , ( "page", toString page )
             ]
+
         toQueryString params =
-          String.join "&" (List.map (\t -> Tuple.first(t) ++ "=" ++ Tuple.second(t)) params)
+            String.join "&" (List.map (\t -> Tuple.first (t) ++ "=" ++ Tuple.second (t)) params)
     in
-         model.searchPath ++ "?" ++ toQueryString(queryParams)
+        model.searchPath ++ "?" ++ toQueryString (queryParams)
+
 
 processSearch : Result Http.Error SearchResults -> Msg
 processSearch result =
-  case result of
-    Ok newResults ->
-      FetchSucceed newResults
-    Err e ->
-      FetchFail e
+    case result of
+        Ok newResults ->
+            FetchSucceed newResults
+
+        Err e ->
+            FetchFail e
+
 
 execSearch : String -> Cmd Msg
 execSearch path =
     let
-      request = Http.get path jsonDec
+        request =
+            Http.get path jsonDec
     in
-      Task.attempt processSearch (Http.toTask request)
+        Task.attempt processSearch (Http.toTask request)
 
 
 
@@ -91,7 +96,7 @@ pageInfoDec =
         (field "activated" Json.bool)
 
 
-profileDec : Json.Decoder (Profile)
+profileDec : Json.Decoder Profile
 profileDec =
     Json.map8 Profile
         (field "id" Json.int)

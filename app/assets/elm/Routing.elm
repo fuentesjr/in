@@ -21,10 +21,12 @@ matchers =
         , map NewProfileRoute (s "newprofile")
         ]
 
+
 parseLocation : Location -> Route
 parseLocation location =
-  case (parseHash matchers location) of
-    Just route ->
-      route
-    Nothing ->
-      NotFoundRoute
+    case (parseHash matchers location) of
+        Just route ->
+            route
+
+        Nothing ->
+            NotFoundRoute

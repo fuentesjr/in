@@ -10,11 +10,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         OnLocationChange location ->
-          let
-            newRoute =
-              parseLocation location
-          in
-            ({ model | route = newRoute }, Cmd.none )
+            let
+                newRoute =
+                    parseLocation location
+            in
+                ( { model | route = newRoute }, Cmd.none )
+
         ProfilesMsg subMsg ->
             let
                 ( newSearch, cmd ) =
