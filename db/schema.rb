@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014055238) do
+ActiveRecord::Schema.define(version: 20161029154642) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "profiles", force: :cascade do |t|
     t.string   "fullname"
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 20161014055238) do
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fullname"], name: "index_profiles_on_fullname"
+    t.index ["fullname"], name: "index_profiles_on_fullname", using: :btree
   end
 
   create_table "profiles_skills", id: false, force: :cascade do |t|
@@ -28,14 +31,15 @@ ActiveRecord::Schema.define(version: 20161014055238) do
     t.integer  "skill_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["profile_id"], name: "index_profiles_skills_on_profile_id"
-    t.index ["skill_id"], name: "index_profiles_skills_on_skill_id"
+    t.index ["profile_id"], name: "index_profiles_skills_on_profile_id", using: :btree
+    t.index ["skill_id"], name: "index_profiles_skills_on_skill_id", using: :btree
   end
 
   create_table "skills", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_skills_on_name", using: :btree
   end
 
 end

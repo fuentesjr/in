@@ -6,6 +6,7 @@ import Models exposing (Model)
 import Profiles.ProfileView
 import Profiles.NewProfileView
 import Profiles.SearchView
+import Profiles.ProfileView
 import Routing exposing (Route(..))
 
 
@@ -23,6 +24,9 @@ page model =
 
         ProfileRoute pid ->
             Html.map ProfilesMsg (Profiles.ProfileView.view model.currentSearch pid)
+
+        ProfileRoute pid ->
+            Html.App.map ProfilesMsg (Profiles.ProfileView.view model.currentSearch pid)
 
         NewProfileRoute ->
             Html.map ProfilesMsg Profiles.NewProfileView.view
