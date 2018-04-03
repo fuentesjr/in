@@ -23,7 +23,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
-
+main : Program Search Model Msg
 main =
     Navigation.programWithFlags OnLocationChange
         { init = init

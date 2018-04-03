@@ -6,7 +6,8 @@ import Task
 import Json.Decode as Json exposing (field)
 import Profiles.Messages exposing (..)
 import Profiles.Models exposing (Profile, Search, SearchResults, PageInfo, Skill)
-import Dict
+import List
+import String
 
 
 update : Msg -> Search -> ( Search, Cmd Msg )
@@ -41,12 +42,12 @@ buildFullPath : Search -> Int -> String
 buildFullPath model page =
     let
         queryParams =
-            Dict.fromList [ ( "search_field", model.searchField)
+            [ ( "search_field", model.searchField)
             , ( "query", model.searchQuery )
             , ( "page", toString page )
             ]
         toQueryString params =
-          Dict.foldl (\k v acc -> acc ++ k ++ "=" ++ v) "" params
+          String.join "&" (List.map (\t -> Tuple.first(t) ++ "=" ++ Tuple.second(t)) params)
     in
          model.searchPath ++ "?" ++ toQueryString(queryParams)
 

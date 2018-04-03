@@ -16,7 +16,7 @@ type Route
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map SearchRoute (s "")
+        [ map SearchRoute top
         , map ProfileRoute (s "profiles" </> int)
         , map NewProfileRoute (s "newprofile")
         ]

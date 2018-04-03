@@ -25,9 +25,6 @@ page model =
         ProfileRoute pid ->
             Html.map ProfilesMsg (Profiles.ProfileView.view model.currentSearch pid)
 
-        ProfileRoute pid ->
-            Html.App.map ProfilesMsg (Profiles.ProfileView.view model.currentSearch pid)
-
         NewProfileRoute ->
             Html.map ProfilesMsg Profiles.NewProfileView.view
 
