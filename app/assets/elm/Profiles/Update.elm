@@ -1,11 +1,12 @@
 module Profiles.Update exposing (..)
 
 import Navigation
-import Http
+import Http exposing (..)
 import Task
-import Json.Decode as Json exposing ((:=))
+import Json.Decode as Json exposing (field)
 import Profiles.Messages exposing (..)
 import Profiles.Models exposing (Profile, Search, SearchResults, PageInfo, Skill)
+import Dict
 
 
 update : Msg -> Search -> ( Search, Cmd Msg )
@@ -40,17 +41,29 @@ buildFullPath : Search -> Int -> String
 buildFullPath model page =
     let
         queryParams =
-            [ ( "search_field", model.searchField )
+            Dict.fromList [ ( "search_field", model.searchField)
             , ( "query", model.searchQuery )
             , ( "page", toString page )
             ]
+        toQueryString params =
+          Dict.foldl (\k v acc -> acc ++ k ++ "=" ++ v) "" params
     in
-        Http.url model.searchPath queryParams
+         model.searchPath ++ "?" ++ toQueryString(queryParams)
 
+processSearch : Result Http.Error SearchResults -> Msg
+processSearch result =
+  case result of
+    Ok newResults ->
+      FetchSucceed newResults
+    Err e ->
+      FetchFail e
 
 execSearch : String -> Cmd Msg
 execSearch path =
-    Task.perform FetchFail FetchSucceed (Http.get jsonDec path)
+    let
+      request = Http.get path jsonDec
+    in
+      Task.attempt processSearch (Http.toTask request)
 
 
 
@@ -59,42 +72,37 @@ execSearch path =
 
 jsonDec : Json.Decoder SearchResults
 jsonDec =
-    "results" := searchResultsDec
+    field "results" searchResultsDec
 
 
 searchResultsDec : Json.Decoder SearchResults
 searchResultsDec =
-    Json.object2 SearchResults
-        ("profiles" := Json.list profileDec)
-        ("pageInfo" := pageInfoDec)
+    Json.map2 SearchResults
+        (field "profiles" (Json.list profileDec))
+        (field "pageInfo" pageInfoDec)
 
 
 pageInfoDec : Json.Decoder PageInfo
 pageInfoDec =
-    Json.object3 PageInfo
-        ("prevPage" := Json.int)
-        ("nextPage" := Json.int)
-        ("activated" := Json.bool)
+    Json.map3 PageInfo
+        (field "prevPage" Json.int)
+        (field "nextPage" Json.int)
+        (field "activated" Json.bool)
 
 
-profileDec : Json.Decoder Profile
+profileDec : Json.Decoder (Profile)
 profileDec =
-    Json.object8 Profile
-        ("id" := Json.int)
-        ("fullname" := Json.string)
-        ("title" := Json.string)
-        ("position" := Json.string)
-        ("company" := Json.string)
-        ("skills" := skillsDec)
-        ("created_at" := Json.string)
-        ("updated_at" := Json.string)
+    Json.map8 Profile
+        (field "id" Json.int)
+        (field "fullname" Json.string)
+        (field "title" Json.string)
+        (field "position" Json.string)
+        (field "company" Json.string)
+        (field "skills" (Json.list skillsDec))
+        (field "created_at" Json.string)
+        (field "updated_at" Json.string)
 
 
-skillsDec : Json.Decoder (List Skill)
+skillsDec : Json.Decoder Skill
 skillsDec =
-    let
-        skill =
-            Json.object1 Skill
-                ("name" := Json.string)
-    in
-        Json.list skill
+    Json.map Skill (field "name" Json.string)
