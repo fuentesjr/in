@@ -1,2 +1,4 @@
 <p id="notice"><%= notice %></p>
-<%= elm_embed('Elm.Main', @init_search) %>
+<%= content_tag :div, id: "init-data", data: @init_search.to_json do %>
+<% end %>
+<%= javascript_pack_tag "elm_loader" %>
