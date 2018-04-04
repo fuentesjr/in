@@ -12,7 +12,7 @@ view model profileId =
         profile =
             getProfile model.searchResults.profiles profileId
     in
-        div [ class "container-fluid" ]
+        div [ class "container" ]
             [ h3 [ class "row" ]
                 [ text profile.fullname ]
             , div [ class "row" ]

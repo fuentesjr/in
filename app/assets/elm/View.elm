@@ -1,6 +1,7 @@
 module View exposing (..)
 
 import Html exposing (Html, text, div)
+import Html.Attributes exposing (class)
 import Messages exposing (Msg(..))
 import Models exposing (Model)
 import Profiles.ProfileView
@@ -12,7 +13,7 @@ import Routing exposing (Route(..))
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ class "text-center" ]
         [ page model ]
 
 
