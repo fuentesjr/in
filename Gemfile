@@ -23,7 +23,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'therubyracer', platforms: :ruby
 
 # Use elm as the JavaScript library
-gem 'elm-rails', github: 'mariochavez/elm-rails', branch: 'rails5_with_sprockets'
+gem 'elm-rails', '~> 0.2.2'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 #gem 'jbuilder', '~> 2.5'
