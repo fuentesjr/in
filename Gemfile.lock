@@ -166,12 +166,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3)
   byebug
-<<<<<<< HEAD
-  elm-rails (~> 0.2.2)
-||||||| merged common ancestors
-  elm-rails!
-=======
->>>>>>> c70a9fa3dce771c9a6a544c5e8f80ce23ffcf3fa
   kaminari
   listen (~> 3.0.5)
   pg
