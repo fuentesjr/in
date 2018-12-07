@@ -1,7 +1,7 @@
 module Profiles.SearchView exposing (..)
 
 import Html exposing (Html, text, button, form, div, input, hr, label, a, p, span)
-import Html.Attributes exposing (class, type', value, name, id, checked, style, href, disabled)
+import Html.Attributes exposing (class, type_, value, name, id, checked, style, href, disabled)
 import Html.Events exposing (onClick, onInput)
 import Profiles.Models exposing (Search, SearchResults, Profile, PageInfo)
 import Profiles.Messages exposing (..)
@@ -18,7 +18,7 @@ view model =
             [ input
                 [ onInput UpdateSearchQuery
                 , value model.searchQuery
-                , type' "text"
+                , type_ "text"
                 , class "input-medium search-query"
                 ]
                 []
@@ -38,7 +38,7 @@ radio value msg check =
         [ style [ ( "padding", "20px" ) ] ]
         [ input
             [ style [ ( "margin", "4px 6px" ) ]
-            , type' "radio"
+            , type_ "radio"
             , onClick msg
             , checked check
             ]
