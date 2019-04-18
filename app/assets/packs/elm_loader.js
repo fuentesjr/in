@@ -2,7 +2,6 @@
 // head of your layout file, like app/views/layouts/application.html.erb.
 // It will render "Hello Elm!" within the page.
 
-import 'bootstrap/dist/css/bootstrap'
 import Elm from 'elm/Main'
 
 document.addEventListener('DOMContentLoaded', () => {

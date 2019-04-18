@@ -25,7 +25,7 @@ view model =
             , button [ onClick GoSearch, class "btn btn-info", style [ ( "margin", "0 2px" ) ] ] [ text "Search" ]
             , p
                 [ style [ ( "margin-top", "15px" ) ] ]
-                [ a [ onClick NavToNewProfile ] [ text "Add New Profile" ] ]
+                [ a [ onClick NavToNewProfile ] [ text "Scrape a Profile" ] ]
             , hr [] []
             , div [ class "serach-results" ] [ renderResults model.searchResults ]
             ]

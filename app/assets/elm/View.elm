@@ -27,7 +27,7 @@ page model =
             Html.map ProfilesMsg (Profiles.ProfileView.view model.currentSearch pid)
 
         NewProfileRoute ->
-            Html.map ProfilesMsg Profiles.NewProfileView.view
+            Html.map ProfilesMsg (Profiles.NewProfileView.view model.currentSearch.scrapeUrl)
 
         NotFoundRoute ->
             notFoundPage

@@ -22,6 +22,12 @@ update msg model =
         FetchSucceed newResults ->
             ( { model | searchResults = newResults }, Cmd.none )
 
+        FetchGood blah ->
+            ( model, Cmd.none )
+
+        GoScrape ->
+            ( model, execScrape model )
+
         GoSearch ->
             ( model, execSearch (buildFullPath model 1) )
 
@@ -37,6 +43,8 @@ update msg model =
         UpdateSearchQuery val ->
             ( { model | searchQuery = val }, Cmd.none )
 
+        UpdateScrapeUrl val ->
+            ( { model | scrapeUrl = val }, Cmd.none )
 
 buildFullPath : Search -> Int -> String
 buildFullPath model page =
@@ -62,6 +70,27 @@ processSearch result =
         Err e ->
             FetchFail e
 
+processScrape : Result Http.Error String -> Msg
+processScrape result =
+    case result of
+        Ok data ->
+            FetchGood data
+
+        Err e ->
+            FetchFail e
+
+
+execScrape : Search -> Cmd Msg
+execScrape search =
+    let
+        path = "/profiles?url=" ++ search.scrapeUrl
+        request =
+            Http.post path Http.emptyBody simpleDec
+    in
+        Task.attempt processScrape (Http.toTask request)
+
+
+
 
 execSearch : String -> Cmd Msg
 execSearch path =
@@ -74,6 +103,17 @@ execSearch path =
 
 
 -- Our custom JSON Decoders
+
+--simpleDec : Json.Decoder { status : String }
+--simpleDec =
+--    Json.map (\status -> { status = status })
+--          (field "status" Json.string)
+
+simpleDec : Json.Decoder String
+simpleDec =
+  field "status" Json.string
+
+
 
 
 jsonDec : Json.Decoder SearchResults

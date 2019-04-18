@@ -31,8 +31,11 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
   test "POST create endpoint" do
     assert_difference('Profile.count') do
-      profile = { profile: { fullname: 'Bobby Tables'} }
-      post profiles_url, params: profile, as: :json
+      params = { url: "https://www.linkedin.com/in/jeff-dean-8b212555" }
+
+      VCR.use_cassette("fetch_jeff_deans_linkedin_profile") do
+        post profiles_url, params: params, as: :json
+      end
     end
 
     assert_equal({ "status" => "created"},  response.parsed_body)

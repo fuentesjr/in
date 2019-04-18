@@ -35,6 +35,7 @@ type alias Search =
     , searchPath : String
     , searchField : String
     , searchResults : SearchResults
+    , scrapeUrl : String
     }
 
 
