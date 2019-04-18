@@ -1,4 +1,6 @@
 class ProfilesController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def index
     # Init data used to bootstrap Elm front-end application (SPA)
     @init_search = {
@@ -8,13 +10,12 @@ class ProfilesController < ApplicationController
       searchResults: {
         profiles: [],
         pageInfo: { prevPage: 0, nextPage: 1, activated: false }
-      }
+      },
+      scrapeUrl: ""
     }
   end
 
   def search
-    results = []
-
     page = params[:page] || 0
     page = page.to_i
     page = 0 if page < 0
@@ -36,12 +37,8 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    profile = Profile.new(profile_params)
-    if profile.save
-      render json: {status: :created}, status: :created
-    else
-      render json: {status: :unprocessable_entity}, status: :unprocessable_entity
-    end
+    ProfileScrapingJob.perform_now(params[:url])
+    render json: {status: "scrape request addded to job queue"}, status: :created
   end
 
   private
