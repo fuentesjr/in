@@ -22,13 +22,9 @@ class ProfilesController < ApplicationController
 
     if %w(fullname skills).include?(params[:search_field])
       if params[:search_field] == "fullname"
-        profiles = Profile.
-                   where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
-                   includes(:skills).page page
-      else # search by skills
-        profiles = Profile.
-                   joins(:skills).
-                   merge(Skill.where("name = ?", params['query'])).page page
+        profiles = Profile.search_by_fullname(params['query']).page page
+      else
+        profiles = Profile.search_by_skills(params['query']).page page
       end
     end
 
