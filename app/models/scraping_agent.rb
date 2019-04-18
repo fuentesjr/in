@@ -1,5 +1,4 @@
 require 'mechanize'
-require 'pry-byebug'
 
 class ScrapingAgent
   def initialize
