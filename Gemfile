@@ -6,6 +6,7 @@ ruby "2.5.1"
 gem 'webpacker', '~> 3.4', '>= 3.4.3'
 gem 'kaminari'
 gem 'mechanize'
+gem "scenic"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1'

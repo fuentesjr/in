@@ -21,14 +21,13 @@ class ProfilesController < ApplicationController
     page = 0 if page < 0
 
     if %w(fullname skills).include?(params[:search_field])
+      query = params['query'].downcase
       if params[:search_field] == "fullname"
-        profiles = Profile.
-                   where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
-                   includes(:skills).page page
+        profiles = MatViewProfile.
+                   where("LOWER(fullname) LIKE ?", "#{query}%").page page
       else # search by skills
-        profiles = Profile.
-                   joins(:skills).
-                   merge(Skill.where("name = ?", params['query'])).page page
+        profiles = MatViewProfile.
+                   where("to_tsvector('english', skills) @@ to_tsquery(?)", query).page page
       end
     end
 
