@@ -29,7 +29,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
 
-  test "POST create endpoint" do
+  test "POST create scraping job" do
     assert_difference('Profile.count') do
       params = { url: "https://www.linkedin.com/in/jeff-dean-8b212555" }
 
@@ -38,6 +38,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_equal({ "status" => "created"},  response.parsed_body)
+    assert_equal({ "status" => "scrape request addded to job queue"},  response.parsed_body)
   end
 end
