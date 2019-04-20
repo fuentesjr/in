@@ -9,11 +9,7 @@ type alias Profile =
     { id : Int
     , fullname : String
     , title : String
-    , position : String
-    , company : String
     , skills : List Skill
-    , created_at : String
-    , updated_at : String
     }
 
 
@@ -44,9 +40,5 @@ blankProfile =
     { id = 0
     , fullname = ""
     , title = ""
-    , position = ""
-    , company = ""
     , skills = []
-    , created_at = ""
-    , updated_at = ""
     }

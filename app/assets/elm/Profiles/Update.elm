@@ -138,15 +138,12 @@ pageInfoDec =
 
 profileDec : Json.Decoder Profile
 profileDec =
-    Json.map8 Profile
+    Json.map4 Profile
         (field "id" Json.int)
         (field "fullname" Json.string)
         (field "title" Json.string)
-        (field "position" Json.string)
-        (field "company" Json.string)
         (field "skills" (Json.list skillsDec))
-        (field "created_at" Json.string)
-        (field "updated_at" Json.string)
+
 
 
 skillsDec : Json.Decoder Skill
