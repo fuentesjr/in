@@ -21,7 +21,8 @@ class ProfilesController < ApplicationController
     page = 0 if page < 0
 
     if %w(fullname skills).include?(params[:search_field])
-      query = params['query'].downcase
+      query = params[:query].downcase
+
       if params[:search_field] == "fullname"
         profiles = MatViewProfile.
                    where("LOWER(fullname) LIKE ?", "#{query}%").page page

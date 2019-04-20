@@ -38,6 +38,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-    assert_equal({ "status" => "created"},  response.parsed_body)
+    assert_equal({ "status" => "scrape request addded to job queue"},  response.parsed_body)
   end
 end
