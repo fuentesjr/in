@@ -16,20 +16,13 @@ class ProfilesController < ApplicationController
   end
 
   def search
-    page = params[:page] || 0
-    page = page.to_i
+    page = (params[:page] || 0).to_i
     page = 0 if page < 0
 
+    profiles = []
     if %w(fullname skills).include?(params[:search_field])
       query = params[:query].downcase
-
-      if params[:search_field] == "fullname"
-        profiles = MatViewProfile.
-                   where("LOWER(fullname) LIKE ?", "#{query}%").page page
-      else # search by skills
-        profiles = MatViewProfile.
-                   where("to_tsvector('english', skills) @@ to_tsquery(?)", query).page page
-      end
+      profiles = MatViewProfile.send("search_by_#{params[:search_field]}", query).page page
     end
 
     page_results = { profiles: profiles, pageInfo: page_info(page, profiles) }
