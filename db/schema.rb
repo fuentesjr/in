@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190419051013) do
+ActiveRecord::Schema.define(version: 20190420024758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20190419051013) do
   create_view "mat_view_profiles", materialized: true, sql_definition: <<-SQL
       SELECT profiles.id,
       profiles.fullname,
+      profiles.title,
       string_agg((skills.name)::text, ', '::text) AS skills
      FROM ((profiles
        JOIN profiles_skills ON ((profiles_skills.profile_id = profiles.id)))
