@@ -21,20 +21,19 @@ class ScrapingAgent
     return nil if url_not_valid?(url)
 
     data_selectors = {
-      :fullname => '#name',
+      :fullname => "#name",
       :title => ".profile-section .profile-overview-content .headline",
       :position => "#experience > .positions > .position:first-child .item-title",
       :company => ".item-subtitle"
     }
 
     @profile_page = @agent.get(url)
-    profile_data = {}
+    profile_data = {url: url}
     data_selectors.each do |attr, selector|
       profile_data[attr] = @profile_page.at_css(selector).text if @profile_page.at_css(selector)
     end
 
     profile_data[:skills] = @profile_page.css(".skill").map{ |o| o.text.downcase }.sort if @profile_page.css(".skill")
-    profile_data[:url] = url
 
     profile_data
   end
