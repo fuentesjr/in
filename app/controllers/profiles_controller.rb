@@ -16,20 +16,12 @@ class ProfilesController < ApplicationController
   end
 
   def search
-    page = params[:page] || 0
-    page = page.to_i
+    page = (params[:page] || 0).to_i
     page = 0 if page < 0
 
+    profiles = []
     if %w(fullname skills).include?(params[:search_field])
-      if params[:search_field] == "fullname"
-        profiles = Profile.
-                   where("LOWER(fullname) LIKE ?", "#{params['query'].downcase}%").
-                   includes(:skills).page page
-      else # search by skills
-        profiles = Profile.
-                   joins(:skills).
-                   merge(Skill.where("name = ?", params['query'])).page page
-      end
+      profiles = Profile.send("search_by_#{params[:search_field]}", params[:query]).page page
     end
 
     page_results = { profiles: profiles, pageInfo: page_info(page, profiles) }
