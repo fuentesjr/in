@@ -39,7 +39,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry-byebug'
   gem 'vcr'
-  gem 'webmock', '~> 3.5', '>= 3.5.1'
+  gem 'webmock', '~> 3.8'
 end
 
 group :development do
